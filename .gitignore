@@ -1,7 +1,8 @@
+venv/
 .env
 __pycache__/
 *.pyc
+*sqlite3
 log.txt
 log.json
 consultas.db
-Estudo-Python/
