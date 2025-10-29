@@ -1,6 +1,8 @@
 import sqlite3
 from clima.valida_entrada import le_int
 
+def conectar ():
+    return sqlite3.connect("clima.db")
 
 def cria_tabela():
     """
@@ -15,7 +17,7 @@ def cria_tabela():
     Returns:
         None
     """
-    with sqlite3.connect('consultas.db') as conn:
+    with conectar() as conn:
         cursor = conn.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS consultas (
                    id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +53,7 @@ def salva_consulta (local,clima,agora):
     )
 
     try:
-        with sqlite3.connect('consultas.db') as conn:
+        with conectar() as conn:
             cursor = conn.cursor()
             cursor.execute (sql, dados)
             conn.commit()
@@ -70,7 +72,7 @@ def lista_consultas():
         None
     """
     try:
-        with sqlite3.connect('consultas.db') as conn:
+        with conectar() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM consultas")
             rows = cursor.fetchall()
@@ -95,7 +97,7 @@ def filtrar_por_cidade():
     cidade = input("Digite a cidade que quer filtrar : ")
 
     try:
-        with sqlite3.connect('consultas.db') as conn:
+        with conectar() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM consultas WHERE cidade = ?" , (cidade,))
             rows = cursor.fetchall()
@@ -121,7 +123,7 @@ def apagar_por_id ():
     sql = "DELETE FROM consultas WHERE id = ?" 
 
     try: 
-        with sqlite3.connect("consultas.db") as conn:
+        with conectar() as conn:
             cursor = conn.cursor()
             cursor.execute(sql,(id,))
             conn.commit()
